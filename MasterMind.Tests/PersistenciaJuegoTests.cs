@@ -29,6 +29,25 @@ public sealed class PersistenciaJuegoTests
     }
 
     [Fact]
+    public void ControladorCheatCode_CheatRepetido_NoConsumeOtroUsoEnLaPartida()
+    {
+        string directorio = CrearDirectorioTemporal();
+        try
+        {
+            ControladorCheatCode controlador = new(directorio);
+
+            Assert.True(controlador.ActivarAlInicio(ControladorCheatCode.Codigo));
+            Assert.Equal(9, controlador.UsosRestantes);
+            Assert.False(controlador.ActivarAlInicio(ControladorCheatCode.Codigo));
+            Assert.Equal(9, controlador.UsosRestantes);
+        }
+        finally
+        {
+            Directory.Delete(directorio, recursive: true);
+        }
+    }
+
+    [Fact]
     public void ControladorCheatCode_NoPermiteUsosCuandoElContadorLlegaACero()
     {
         string directorio = CrearDirectorioTemporal();

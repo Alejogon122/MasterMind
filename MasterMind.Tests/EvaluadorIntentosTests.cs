@@ -46,7 +46,7 @@ public sealed class EvaluadorIntentosTests
     }
 
     [Fact]
-    public void EvaluarIntento_DevuelveCoincidenciasExactasYDesplazadas()
+    public void EvaluarIntento_CoincidenciaParcial_CuentaPosicionExactaYColoresDesplazados()
     {
         ResultadoIntento resultado = EvaluadorIntentos.EvaluarIntento("RBGY", "RYBG");
 
@@ -55,7 +55,7 @@ public sealed class EvaluadorIntentosTests
     }
 
     [Fact]
-    public void EvaluarIntento_NoCuentaColoresRepetidosMasDeUnaVez()
+    public void EvaluarIntento_ManejoDeDuplicados_NoCuentaColoresMasDeUnaVez()
     {
         ResultadoIntento resultado = EvaluadorIntentos.EvaluarIntento("RRBG", "RRRB");
 
@@ -64,7 +64,7 @@ public sealed class EvaluadorIntentosTests
     }
 
     [Fact]
-    public void EvaluarIntento_DevuelveCadenasVaciasCuandoNoHayCoincidencias()
+    public void EvaluarIntento_NingunaCoincidencia_DevuelveCadenasVacias()
     {
         ResultadoIntento resultado = EvaluadorIntentos.EvaluarIntento("RBGY", "WWCC");
 
@@ -73,7 +73,7 @@ public sealed class EvaluadorIntentosTests
     }
 
     [Fact]
-    public void EvaluarIntento_DevuelveTodoElPatronCuandoEsCorrecto()
+    public void EvaluarIntento_CoincidenciaCompleta_DevuelveTodoElPatronEnPosicion()
     {
         ResultadoIntento resultado = EvaluadorIntentos.EvaluarIntento("WCRB", "WCRB");
 
@@ -82,7 +82,7 @@ public sealed class EvaluadorIntentosTests
     }
 
     [Fact]
-    public void EvaluarIntento_ConCheatCodeRevelaUnaPosicionIncorrectaDelIntento()
+    public void EvaluarIntento_CheatValido_RevelaColorEnUnaPosicionAleatoria()
     {
         ResultadoIntento resultado = EvaluadorIntentos.EvaluarIntento(
             "RBGY",
@@ -98,7 +98,7 @@ public sealed class EvaluadorIntentosTests
     }
 
     [Fact]
-    public void EvaluarIntento_ConCheatCodeDevuelveSinSuerteSiLaPosicionYaEstabaAcertada()
+    public void EvaluarIntento_CheatInutil_IndicaSinSuerteCuandoLaPosicionYaEstabaAcertada()
     {
         ResultadoIntento resultado = EvaluadorIntentos.EvaluarIntento(
             "RBGY",
