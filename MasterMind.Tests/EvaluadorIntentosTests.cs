@@ -81,6 +81,35 @@ public sealed class EvaluadorIntentosTests
         Assert.Equal(string.Empty, resultado.ColorCorrecto);
     }
 
+    [Fact]
+    public void EvaluarIntento_ConCheatCodeRevelaUnaPosicionIncorrectaDelIntento()
+    {
+        ResultadoIntento resultado = EvaluadorIntentos.EvaluarIntento(
+            "RBGY",
+            "WWWW",
+            "THISISACHEATCODE");
+
+        Assert.False(resultado.SinSuerte);
+        Assert.NotNull(resultado.PosicionRevelada);
+        Assert.NotNull(resultado.ColorRevelado);
+        Assert.Equal(
+            "RBGY"[resultado.PosicionRevelada!.Value - 1],
+            resultado.ColorRevelado!.Value);
+    }
+
+    [Fact]
+    public void EvaluarIntento_ConCheatCodeDevuelveSinSuerteSiLaPosicionYaEstabaAcertada()
+    {
+        ResultadoIntento resultado = EvaluadorIntentos.EvaluarIntento(
+            "RBGY",
+            "RBGY",
+            "THISISACHEATCODE");
+
+        Assert.True(resultado.SinSuerte);
+        Assert.Null(resultado.PosicionRevelada);
+        Assert.Null(resultado.ColorRevelado);
+    }
+
     [Theory]
     [InlineData(null, "RBGY", "patronSecreto")]
     [InlineData("RBGY", null, "intentoJugador")]

@@ -1,13 +1,22 @@
 namespace Mastermind;
 
-public sealed record ResultadoIntento(string BienPosicionado, string ColorCorrecto);
+public sealed record ResultadoIntento(
+    string BienPosicionado,
+    string ColorCorrecto,
+    int? PosicionRevelada = null,
+    char? ColorRevelado = null,
+    bool SinSuerte = false);
 
 public static class EvaluadorIntentos
 {
     private const int LongitudPatron = 4;
     private const string ColoresDisponibles = "RBGYWC";
+    private const string CodigoCheat = "THISISACHEATCODE";
 
-    public static ResultadoIntento EvaluarIntento(string patronSecreto, string intentoJugador)
+    public static ResultadoIntento EvaluarIntento(
+        string patronSecreto,
+        string intentoJugador,
+        string? cheatCode = null)
     {
         string secretoValidado = ValidarPatron(patronSecreto, nameof(patronSecreto));
         string intentoValidado = ValidarPatron(intentoJugador, nameof(intentoJugador));
@@ -46,9 +55,29 @@ public static class EvaluadorIntentos
             }
         }
 
+        int? posicionRevelada = null;
+        char? colorRevelado = null;
+        bool sinSuerte = false;
+        if (string.Equals(cheatCode?.Trim(), CodigoCheat, StringComparison.Ordinal))
+        {
+            int indiceRevelado = Random.Shared.Next(LongitudPatron);
+            if (intentoValidado[indiceRevelado] == secretoValidado[indiceRevelado])
+            {
+                sinSuerte = true;
+            }
+            else
+            {
+                posicionRevelada = indiceRevelado + 1;
+                colorRevelado = secretoValidado[indiceRevelado];
+            }
+        }
+
         return new ResultadoIntento(
             new string(bienPosicionado.Where(color => color != '\0').ToArray()),
-            new string(colorCorrecto.ToArray()));
+            new string(colorCorrecto.ToArray()),
+            posicionRevelada,
+            colorRevelado,
+            sinSuerte);
     }
 
     public static string ValidarPatron(string patron, string nombreParametro)
