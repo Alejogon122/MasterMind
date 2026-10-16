@@ -10,6 +10,14 @@ Desde esta carpeta:
 dotnet run
 ```
 
+## Pruebas
+
+Desde la carpeta raíz del repositorio, ejecuta las pruebas unitarias con:
+
+```powershell
+dotnet test .\MasterMind.Tests\MasterMind.Tests.csproj
+```
+
 Ingresa cuatro iniciales, sin espacios: `R` (rojo), `B` (negro), `G` (verde), `Y` (amarillo), `W` (blanco) y `C` (cian). Se permiten colores repetidos y las letras minúsculas también son válidas.
 
 El patrón secreto permanece oculto hasta que se adivine o se agoten los 12 intentos. La función `EvaluadorIntentos.EvaluarIntento(patronSecreto, intentoJugador)` devuelve:
